@@ -10,7 +10,7 @@ class Card:
         self.rank = rank
 
     def __str__(self):
-        return f"{Card.ranks[self.rank]} of {Card.suits[self.suit]}"
+        return f"{Card.ranks[self.rank]}{Card.suits[self.suit]}"
     
     def __lt__(self, other):
         if self.rank == other.rank:
@@ -39,8 +39,6 @@ class Deck:
     def shuffle(self):
         random.shuffle(self.deck)
 
-deck = Deck()
-
 class Hand(Deck):
 
     def __init__(self, label):
@@ -60,12 +58,35 @@ class Hand(Deck):
     def round_winner(self):
         self.win_count = self.win_count + 1
 
-hand = Hand("Player")
 
-hand.add_card(deck.pop_card())
-hand.add_card(deck.pop_card())
-hand.add_card(deck.pop_card())
-hand.add_card(deck.pop_card())
-hand.add_card(deck.pop_card())
+#The Game
 
-print(hand)
+deck = Deck()
+
+hands = []
+for i in range(1, 5):
+    hands.append(Hand(f'P{i}'))
+
+while len(deck) > 0:
+    for hand in hands:
+        hand.add_card(deck.pop_card())
+
+print(hands[0])
+
+
+
+for i in range(13):
+    # input()
+    played_cards = []
+    for hand in hands:
+        played_cards.append(hand.pop_card())
+    for card in played_cards:
+        print(card)
+    winner_card = max(played_cards)
+    winner_hand = hands[played_cards.index(winner_card)]
+    winner_hand.round_winner()
+
+    print(f"R{i}: " + " ".join([str(card) for card in played_cards]) + f" Winner: {winner_hand.get_label()} {str(winner_card)}")
+
+for hand in hands:
+    print(f"Score for {hand.get_label()}: {hand.get_win_count()}")
