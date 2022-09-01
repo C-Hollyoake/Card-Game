@@ -1,3 +1,5 @@
+import random
+
 class Card:
     suits = ['\u2666', '\u2665', '\u2663', '\u2660']
     ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"] 
@@ -15,3 +17,24 @@ class Card:
             return self.suit < other.suit
         else:
             return self.rank < other.rank
+
+class Deck:
+
+    def __init__(self):
+        self.deck = []
+        for suit in range(4):
+            for rank in range(13):
+                self.deck.append(Card(suit, rank))
+        self.shuffle()
+    
+    def __len__(self):
+        return len(self.deck)
+    
+    def add_card(self, card):
+        self.deck.append(card)
+    
+    def pop_card(self):
+        return self.deck.pop()
+    
+    def shuffle(self):
+        random.shuffle(self.deck)
